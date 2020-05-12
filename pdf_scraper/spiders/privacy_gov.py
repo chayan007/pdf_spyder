@@ -2,7 +2,8 @@
 import scrapy
 from scrapy import Request
 
-from pdf_scraper.constants import TARGET_URLS, Selectors, PDF_EXTENSION, STRIP_STRING, BASE_URI, DOWNLOAD_DIRECTORY
+from pdf_scraper.constants import TARGET_URLS, Selectors, PDF_EXTENSION, STRIP_STRING, BASE_URI
+from pdf_scraper.spiders.pdf_resource import PDFItem
 
 
 class PrivacyGovSpider(scrapy.Spider):
@@ -19,13 +20,13 @@ class PrivacyGovSpider(scrapy.Spider):
                         BASE_URI,
                         link.split(STRIP_STRING)[-1]
                     )
+                    item = PDFItem()
+                    item['file_urls'] = [link]
+                    # yield item
                     yield Request(url=link, callback=self.save_pdf)
 
     def save_pdf(self, response):
-        path = '{}/{}'.format(
-            DOWNLOAD_DIRECTORY,
-            response.url.split('/')[-1]
-        )
+        path = response.url.split('/')[-1]
         self.logger.info('Saving PDF %s', path)
         with open(path, 'wb') as f:
             f.write(response.body)
