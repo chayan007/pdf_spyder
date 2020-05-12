@@ -8,11 +8,6 @@ TARGET_URLS = [
     'https://www.privacy.gov.ph/commission-issued-orders/'
 ]
 
-DOWNLOAD_DIRECTORY = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-    'pdf_scraper/downloads'
-)
-
 BASE_URI = 'https://www.privacy.gov.ph'
 STRIP_STRING = '../'
 PDF_EXTENSION = '.pdf'
